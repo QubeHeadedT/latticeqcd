@@ -5,7 +5,7 @@ Created on Wed Jun 28 14:57:15 2017
 @author: jamesleech
 """
 
-#Script to produce a 3D plot of (x, y, V) for old Koma data
+#Script to produce a 3D plot of (x, y, V) from an old koma datafile
 
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
