@@ -148,12 +148,12 @@ class latticeQCDDataPoint:
         assert isinstance(z, float), "z must be a float"
 
     def __str__(self):
-        return f"({self.r2}, {self.a}, {self.b}, {self.c}, {self.x}, {self.y}, {self.z}, {self.v}"
+        return f"{self.r2} {self.a} {self.b} {self.c} {self.x} {self.y} {self.z} {self.v}"
 
 
 if __name__ == '__main__':
     """Test functions on a default example."""
-    testData = LatticeQcdData(data_filepath='r2_a_b_c_x_y_z_v', name="Koma data", beta_value=5.8)
+    testData = LatticeQcdData(data_filepath='test_mendi2', name="Mendi data", beta_value=5.8)
     #testData.append_data('taka_data')
     testData.plot_shape_space()
     print('test finished')
