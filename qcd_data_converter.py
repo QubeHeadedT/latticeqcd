@@ -40,7 +40,7 @@ class HyperSphericalConverter:
                 sidelength_b = math.sqrt(j*j + k*k)
                 sidelength_c = math.sqrt(i*i + k*k)
                 
-                sidelengths.append((sidelength_a, sidelength_b, sidelength_c, potential))
+                sidelengths.append((sidelength_a, sidelength_b, sidelength_c, potential, 0))
         
         return sidelengths
 
@@ -50,7 +50,7 @@ class HyperSphericalConverter:
 
         data_points = []
 
-        for sidelength_a, sidelength_b, sidelength_c, v in self.csv_to_sidelengths(file_name):
+        for sidelength_a, sidelength_b, sidelength_c, v, err in self.csv_to_sidelengths(file_name):
 
             for i in range(6):
                 a, b, c = self.side_length_permutations(i, sidelength_a, sidelength_b, sidelength_c)
@@ -70,7 +70,7 @@ class HyperSphericalConverter:
                 yy=(rx*rx+ry*ry-lx*lx-ly*ly)/r2
                 zz=2*(rx*ly-ry*lx)/r2 
 
-                data_points.append(str(latticeQCDDataPoint(r2, a, b, c, xx, yy, zz, v)))
+                data_points.append(str(latticeQCDDataPoint(r2, a, b, c, xx, yy, zz, v, err=err)))
         
         return data_points
 
@@ -94,6 +94,12 @@ class HyperSphericalConverter:
 
 class MendcelliConverter(HyperSphericalConverter):
     """For reading data files from Mendicelli study."""
+
+    def __init__(self, potential='Y', file_name=None, delimiter=",", label=None):
+        assert (potential=='Y' or potential=='Delta'), 'potential parameter must be either Y or Delta'
+        self._potential = potential
+        super().__init__(file_name=file_name, delimiter=delimiter, label=label)
+
 
     def csv_to_sidelengths(self, file_name):
 
@@ -134,9 +140,13 @@ class MendcelliConverter(HyperSphericalConverter):
         else:
             raise ValueError("Mode for MedicelliConverter._calculate_sidelengths must be 'Right' or 'ISO'.")
 
-        potential = data[3]
+        if self._potential == 'Y':
+            potential = data[3]
+        elif self._potential == 'Delta':
+            potential = data[2]
+        error = data[5]
         
-        return (length_a, length_b, length_c, potential)
+        return (length_a, length_b, length_c, potential, error)
 
             
 

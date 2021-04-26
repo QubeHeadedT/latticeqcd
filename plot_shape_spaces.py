@@ -10,4 +10,4 @@ if __name__ == '__main__':
             name = str(Path(file).with_suffix(''))
             print(name)
             testData = LatticeQcdData.LatticeQcdData(data_filepath=file, name=name)
-            testData.plot_shape_space()
+            testData.potential_versus_stirnglength()
